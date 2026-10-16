@@ -113,8 +113,9 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
 <div class="eyebrow">Portal account</div>
 <h2>You're signed in</h2>
 <p id="accountInfo"></p>
-<p>Your authentication is working. Your role-specific dashboard will be added next.</p>
-<button class="primary" id="signout" type="button">Sign out</button>
+<p>Opening your dashboard...</p>
+<button class="primary" id="openDashboard" type="button">Open dashboard</button>
+<button class="primary" id="signout" type="button" style="margin-top:10px">Sign out</button>
 </section>
 <div class="bottom">Woodlands Academy · Be ready. Be respectful. Be responsible.</div>
 </main>
@@ -127,28 +128,37 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
   const root = document.documentElement;
   $('year').textContent = new Date().getFullYear();
 
-  root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
+  try {
+    root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
+  } catch {
+    root.dataset.theme = 'light';
+  }
+
   function updateTheme() {
     $('theme').textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
   }
   updateTheme();
+
   $('theme').addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('woodlands-theme', root.dataset.theme);
+    try { localStorage.setItem('woodlands-theme', root.dataset.theme); } catch {}
     updateTheme();
   });
 
   let mode = 'login';
   let client = null;
+  let redirecting = false;
 
   function message(text, type = 'error') {
     $('message').textContent = text;
     $('message').className = 'msg show ' + type;
   }
+
   function clearMessage() {
     $('message').textContent = '';
     $('message').className = 'msg';
   }
+
   function setMode(next) {
     mode = next;
     const signup = mode === 'signup';
@@ -171,25 +181,31 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
     clearMessage();
   }
 
+  function goToDashboard() {
+    if (redirecting) return;
+    redirecting = true;
+    $('authCard').style.display = 'none';
+    $('account').style.display = 'block';
+    $('accountInfo').textContent = 'Your account is authenticated.';
+    $('accountInfo').insertAdjacentText('beforeend', ' Redirecting now...');
+    window.location.replace('/dashboard');
+  }
+
   $('loginTab').addEventListener('click', () => setMode('login'));
   $('signupTab').addEventListener('click', () => setMode('signup'));
+
   $('showPassword').addEventListener('click', () => {
     const input = $('password');
     input.type = input.type === 'password' ? 'text' : 'password';
     $('showPassword').textContent = input.type === 'password' ? 'Show' : 'Hide';
   });
 
-  function showAccount(user) {
-    $('authCard').style.display = 'none';
-    $('account').style.display = 'block';
-    $('accountInfo').textContent = 'Signed in as ' + (user.email || 'your account') + '.';
-  }
-
   function connect() {
     if (!window.supabase || typeof window.supabase.createClient !== 'function') {
       message('The Supabase library did not load. Check your internet connection, then refresh this page.');
       return false;
     }
+
     try {
       client = window.supabase.createClient(
         'https://pxjbpxwknaogfgjpetdd.supabase.co',
@@ -210,6 +226,7 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
 
     const email = $('email').value.trim();
     const password = $('password').value;
+
     if (!email || !password) {
       message('Please enter your email address and password.');
       return;
@@ -244,18 +261,29 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
             emailRedirectTo: location.origin + '/login'
           }
         });
+
         if (error) throw error;
+
         if (data.session && data.user) {
-          showAccount(data.user);
+          goToDashboard();
         } else {
           setMode('login');
           $('email').value = email;
           message('Registration submitted. Check your email for a confirmation link before signing in.', 'success');
         }
       } else {
-        const { data, error } = await client.auth.signInWithPassword({ email, password });
+        const { data, error } = await client.auth.signInWithPassword({
+          email,
+          password
+        });
+
         if (error) throw error;
-        showAccount(data.user);
+
+        if (data.session && data.user) {
+          goToDashboard();
+        } else {
+          message('Sign-in returned no active session. Please try again.');
+        }
       }
     } catch (error) {
       message(error.message || 'The request failed. Please try again.');
@@ -268,19 +296,23 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
   $('forgot').addEventListener('click', async () => {
     clearMessage();
     if (!client && !connect()) return;
+
     const email = $('email').value.trim();
     if (!email) {
       message('Enter your email address first.');
       $('email').focus();
       return;
     }
+
     const button = $('forgot');
     button.disabled = true;
     button.textContent = 'Sending…';
+
     try {
       const { error } = await client.auth.resetPasswordForEmail(email, {
         redirectTo: location.origin + '/login'
       });
+
       if (error) throw error;
       message('If password recovery is enabled, a reset email will be sent to that address.', 'success');
     } catch (error) {
@@ -291,12 +323,20 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
     }
   });
 
+  $('openDashboard').addEventListener('click', () => {
+    window.location.href = '/dashboard';
+  });
+
   $('signout').addEventListener('click', async () => {
     if (!client && !connect()) return;
+
     $('signout').disabled = true;
+
     try {
       const { error } = await client.auth.signOut();
       if (error) throw error;
+
+      redirecting = false;
       $('account').style.display = 'none';
       $('authCard').style.display = 'block';
       $('password').value = '';
@@ -316,8 +356,13 @@ input:focus{outline:2px solid var(--gold);outline-offset:1px}
         message(error.message);
         return;
       }
-      if (data.session && data.session.user) showAccount(data.session.user);
-    }).catch(error => message(error.message || 'Could not check your session.'));
+
+      if (data.session && data.session.user) {
+        goToDashboard();
+      }
+    }).catch(error => {
+      message(error.message || 'Could not check your session.');
+    });
   }
 })();
 </script>
