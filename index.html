@@ -1,0 +1,909 @@
+
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101d35">
+  <meta name="description" content="Woodlands Academy, Spilsby. Be Ready. Be Respectful. Be Responsible.">
+  <title>Woodlands Academy | Official Website</title>
+
+  <style>
+    :root {
+      --navy: #101d35;
+      --navy-light: #1b2e4b;
+      --gold: #d7b56d;
+      --gold-light: #f0dba8;
+      --background: #f7f7f4;
+      --surface: #ffffff;
+      --text: #172238;
+      --muted: #707988;
+      --border: #e3e5e8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 95px;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .site {
+      --page: var(--background);
+      --card: var(--surface);
+      --ink: var(--text);
+      --secondary: var(--muted);
+      --line: var(--border);
+      background: var(--page);
+      color: var(--ink);
+      min-height: 100vh;
+      transition: background .2s, color .2s;
+    }
+
+    .site.dark {
+      --page: #101827;
+      --card: #1a2639;
+      --ink: #f3f5f8;
+      --secondary: #b3bdcc;
+      --line: #354155;
+    }
+
+    .announcement {
+      background: var(--navy);
+      color: #f8f5ec;
+      padding: 9px 20px;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+
+    .announcement span {
+      margin-left: 15px;
+      color: var(--gold-light);
+      font-weight: 400;
+      letter-spacing: .3px;
+    }
+
+    .header {
+      min-height: 84px;
+      padding: 15px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: var(--gold);
+      border: 1px solid #a88b53;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+    }
+
+    .brand-subtitle {
+      color: var(--secondary);
+      font-size: 10px;
+      letter-spacing: 3px;
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .navigation a {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .navigation a:hover {
+      color: #aa8743;
+    }
+
+    .navigation .portal-link {
+      background: var(--navy);
+      color: white;
+      padding: 12px 16px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-button {
+      width: 39px;
+      height: 39px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .menu-button {
+      display: none;
+    }
+
+    .hero {
+      padding: 85px 10%;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      align-items: center;
+      gap: 50px;
+      background:
+        radial-gradient(ellipse at 85% 20%, #e9e2d1 0, transparent 40%),
+        var(--page);
+      overflow: hidden;
+    }
+
+    .dark .hero {
+      background:
+        radial-gradient(ellipse at 85% 20%, #2b3548 0, transparent 40%),
+        var(--page);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: #9b7a3b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 27px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+    }
+
+    .hero h1 {
+      margin: 26px 0 22px;
+      font-size: clamp(48px, 6vw, 78px);
+      line-height: 1.05;
+      letter-spacing: -3.8px;
+    }
+
+    .gold-text {
+      color: #ad8d4c;
+    }
+
+    .hero-description {
+      max-width: 480px;
+      color: var(--secondary);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .button {
+      min-height: 48px;
+      padding: 13px 19px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .2s, background .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-gold {
+      background: var(--gold);
+      color: #152139;
+    }
+
+    .button-gold:hover {
+      background: var(--gold-light);
+    }
+
+    .button-outline {
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .hero-principles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 45px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--secondary);
+      font-size: 10px;
+    }
+
+    .hero-principles span::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .hero-art {
+      min-height: 380px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .circle {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border: 1px solid #c7b58d;
+      border-radius: 50%;
+      opacity: .65;
+    }
+
+    .circle-inner {
+      width: 270px;
+      height: 270px;
+    }
+
+    .art-card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 350px);
+      padding: 30px;
+      color: white;
+      background: linear-gradient(145deg, #1d3150, #101a2d);
+      border: 1px solid #40506a;
+      box-shadow: 0 25px 60px #101d3525;
+    }
+
+    .art-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--gold-light);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+    }
+
+    .art-emblem {
+      width: 57px;
+      height: 57px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #8d784d;
+      border-radius: 50%;
+      font-size: 29px;
+    }
+
+    .art-card h2 {
+      margin-top: 27px;
+      font-size: 29px;
+    }
+
+    .art-rule {
+      width: 42px;
+      height: 3px;
+      margin: 17px 0;
+      background: var(--gold);
+    }
+
+    .art-card p {
+      color: #c7d0dc;
+      font-size: 12px;
+    }
+
+    .art-footer {
+      margin-top: 27px;
+      padding-top: 15px;
+      border-top: 1px solid #3a4960;
+      color: var(--gold-light);
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    .values-section {
+      padding: 85px 10% 95px;
+      background: var(--card);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .section-heading h2,
+    .community-copy h2 {
+      margin-top: 19px;
+      font-size: clamp(34px, 4vw, 47px);
+      letter-spacing: -1.5px;
+    }
+
+    .section-heading > p {
+      max-width: 390px;
+      color: var(--secondary);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .value-card {
+      padding: 27px;
+      background: var(--page);
+      border: 1px solid var(--line);
+      transition: transform .2s, border-color .2s;
+    }
+
+    .value-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+
+    .value-number {
+      color: #ad8d4c;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+    }
+
+    .value-card h3 {
+      margin: 32px 0 13px;
+      font-size: 22px;
+    }
+
+    .value-card p {
+      color: var(--secondary);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .value-rule {
+      width: 35px;
+      height: 3px;
+      margin-top: 24px;
+      background: var(--gold);
+    }
+
+    .community-section {
+      padding: 95px 10%;
+      display: grid;
+      grid-template-columns: 1fr .9fr;
+      align-items: center;
+      gap: 65px;
+    }
+
+    .community-copy > p {
+      max-width: 480px;
+      margin: 23px 0;
+      color: var(--secondary);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .community-panel {
+      padding: 30px;
+      background: var(--navy);
+      color: white;
+    }
+
+    .panel-heading {
+      padding-bottom: 20px;
+      color: var(--gold-light);
+      border-bottom: 1px solid #34445b;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
+    }
+
+    .community-item {
+      display: flex;
+      gap: 18px;
+      padding: 23px 0;
+      border-bottom: 1px solid #34445b;
+    }
+
+    .community-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .community-item > span {
+      color: var(--gold);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .community-item h3 {
+      font-size: 13px;
+    }
+
+    .community-item p {
+      margin-top: 7px;
+      color: #bbc5d4;
+      font-size: 11px;
+    }
+
+    .contact-section {
+      padding: 55px 10%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      background: #eee9dd;
+      color: #172238;
+    }
+
+    .dark .contact-section {
+      background: #202b3d;
+      color: #f3f5f8;
+    }
+
+    .contact-section h2 {
+      margin: 14px 0 8px;
+      font-size: clamp(25px, 3vw, 35px);
+    }
+
+    .contact-section p {
+      color: var(--secondary);
+      font-size: 12px;
+    }
+
+    .footer {
+      padding: 28px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--navy);
+      color: #c7d0dd;
+      font-size: 10px;
+    }
+
+    .footer strong {
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1050px) {
+      .header {
+        padding-left: 4%;
+        padding-right: 4%;
+      }
+
+      .navigation {
+        gap: 15px;
+      }
+
+      .hero,
+      .values-section,
+      .community-section,
+      .contact-section {
+        padding-left: 6%;
+        padding-right: 6%;
+      }
+
+      .hero {
+        gap: 25px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .header {
+        min-height: 75px;
+      }
+
+      .menu-button {
+        display: grid;
+        place-items: center;
+      }
+
+      .navigation {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px 6% 20px;
+        background: var(--card);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .navigation.open {
+        display: flex;
+      }
+
+      .navigation a {
+        padding: 13px 0;
+      }
+
+      .navigation .portal-link {
+        padding: 13px;
+        text-align: center;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 65px;
+        padding-bottom: 65px;
+      }
+
+      .hero-art {
+        min-height: 350px;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .community-section {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .contact-section {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .announcement {
+        font-size: 9px;
+      }
+
+      .announcement span {
+        display: block;
+        margin: 3px 0 0;
+      }
+
+      .brand-name {
+        font-size: 12px;
+      }
+
+      .brand-subtitle {
+        font-size: 9px;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+      }
+
+      .hero h1 {
+        font-size: 49px;
+        letter-spacing: -2.5px;
+      }
+
+      .hero-principles {
+        gap: 12px;
+      }
+
+      .hero-principles span {
+        font-size: 9px;
+      }
+
+      .circle {
+        width: 290px;
+        height: 290px;
+      }
+
+      .circle-inner {
+        width: 235px;
+        height: 235px;
+      }
+
+      .art-card {
+        width: 285px;
+        padding: 24px;
+      }
+
+      .values-section,
+      .community-section {
+        padding-top: 65px;
+        padding-bottom: 65px;
+      }
+
+      .community-panel {
+        padding: 23px;
+      }
+
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site" id="site">
+    <div class="announcement">
+      WOODLANDS ACADEMY
+      <span>Learning today. Building tomorrow.</span>
+    </div>
+
+    <header class="header">
+      <a href="#" class="brand" aria-label="Woodlands Academy home">
+        <div class="brand-mark">W</div>
+        <div>
+          <div class="brand-name">WOODLANDS</div>
+          <div class="brand-subtitle">ACADEMY</div>
+        </div>
+      </a>
+
+      <nav class="navigation" id="navigation">
+        <a href="#school">Our School</a>
+        <a href="#values">Our Values</a>
+        <a href="#life">School Life</a>
+        <a href="#contact">Contact</a>
+        <a href="/login" class="portal-link">Student &amp; Staff Portal →</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="themeButton" type="button"
+          aria-label="Switch colour theme" title="Switch colour theme">☾</button>
+        <button class="icon-button menu-button" id="menuButton" type="button"
+          aria-label="Open navigation" aria-expanded="false">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="school">
+        <div>
+          <div class="eyebrow">WOODLANDS ACADEMY · SPILSBY</div>
+          <h1>Your future.<br><span class="gold-text">Our ambition.</span></h1>
+
+          <p class="hero-description">
+            A community where every student is encouraged to aim high,
+            discover their strengths and build the confidence to succeed.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#values" class="button button-gold">Discover Woodlands →</a>
+            <a href="#life" class="button button-outline">Get to know us ↓</a>
+          </div>
+
+          <div class="hero-principles">
+            <span>High expectations</span>
+            <span>Shared ambition</span>
+            <span>Stronger together</span>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="Woodlands Academy commitment">
+          <div class="circle"></div>
+          <div class="circle circle-inner"></div>
+
+          <div class="art-card">
+            <div class="art-top">
+              <div class="art-emblem">W</div>
+              <span>OUR COMMITMENT</span>
+            </div>
+            <h2>Every day.<br>Every student.</h2>
+            <div class="art-rule"></div>
+            <p>Ready to learn. Ready to grow. Ready for the future.</p>
+            <div class="art-footer">WOODLANDS ACADEMY</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="values-section" id="values">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE WOODLANDS STANDARD</div>
+            <h2>Three values.<br><span class="gold-text">One community.</span></h2>
+          </div>
+          <p>
+            The principles that guide how we learn, work together and
+            represent our school every day.
+          </p>
+        </div>
+
+        <div class="values-grid">
+          <article class="value-card">
+            <span class="value-number">01 / BE READY</span>
+            <h3>Be Ready.</h3>
+            <p>
+              Arrive prepared to learn, challenge yourself and make the
+              most of every opportunity.
+            </p>
+            <div class="value-rule"></div>
+          </article>
+
+          <article class="value-card">
+            <span class="value-number">02 / BE RESPECTFUL</span>
+            <h3>Be Respectful.</h3>
+            <p>
+              Treat everyone with dignity, listen to others and celebrate
+              our school community.
+            </p>
+            <div class="value-rule"></div>
+          </article>
+
+          <article class="value-card">
+            <span class="value-number">03 / BE RESPONSIBLE</span>
+            <h3>Be Responsible.</h3>
+            <p>
+              Take ownership of your choices, your learning and your
+              contribution to our school.
+            </p>
+            <div class="value-rule"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="community-section" id="life">
+        <div class="community-copy">
+          <div class="eyebrow">MORE THAN A SCHOOL</div>
+          <h2>Find your place.<br><span class="gold-text">Make your mark.</span></h2>
+          <p>
+            Great schools are built on the strength of their communities.
+            At Woodlands, learning is about developing knowledge,
+            character and the confidence to take the next step.
+          </p>
+          <a href="#contact" class="button button-outline">Explore our school →</a>
+        </div>
+
+        <div class="community-panel">
+          <div class="panel-heading">A SCHOOL COMMUNITY</div>
+
+          <div class="community-item">
+            <span>01</span>
+            <div>
+              <h3>Learn with purpose</h3>
+              <p>Build knowledge and new skills.</p>
+            </div>
+          </div>
+
+          <div class="community-item">
+            <span>02</span>
+            <div>
+              <h3>Grow with confidence</h3>
+              <p>Discover what you are capable of.</p>
+            </div>
+          </div>
+
+          <div class="community-item">
+            <span>03</span>
+            <div>
+              <h3>Contribute with pride</h3>
+              <p>Make a positive difference.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div>
+          <div class="eyebrow">START HERE</div>
+          <h2>Ready for what's next?</h2>
+          <p>Explore the school website or access your school portal.</p>
+        </div>
+        <a href="/login" class="button button-gold">Access the portal →</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>WOODLANDS ACADEMY</strong>
+      <span>Be Ready. Be Respectful. Be Responsible.</span>
+      <span>Spilsby, Lincolnshire</span>
+    </footer>
+  </div>
+
+  <script>
+    const site = document.getElementById("site");
+    const themeButton = document.getElementById("themeButton");
+    const menuButton = document.getElementById("menuButton");
+    const navigation = document.getElementById("navigation");
+
+    themeButton.addEventListener("click", function () {
+      const isDark = site.classList.toggle("dark");
+      themeButton.textContent = isDark ? "☀" : "☾";
+      themeButton.setAttribute(
+        "aria-label",
+        isDark ? "Switch to light theme" : "Switch to dark theme"
+      );
+    });
+
+    menuButton.addEventListener("click", function () {
+      const isOpen = navigation.classList.toggle("open");
+      menuButton.textContent = isOpen ? "✕" : "☰";
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation" : "Open navigation"
+      );
+    });
+
+    navigation.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        navigation.classList.remove("open");
+        menuButton.textContent = "☰";
+        menuButton.setAttribute("aria-expanded", "false");
+      });
+    });
+  </script>
+</body>
+</html>
