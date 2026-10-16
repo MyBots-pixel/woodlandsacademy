@@ -4,13 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard | Woodlands Academy</title>
+<title>Woodlands Academy Portal</title>
 <style>
-:root{--navy:#101d35;--navy2:#1b2d4a;--gold:#d8b46a;--bg:#f4f5f8;--card:#fff;--ink:#18243a;--muted:#718096;--line:#e4e8ef}
+:root{--navy:#101d35;--gold:#d8b46a;--bg:#f4f5f8;--card:#fff;--ink:#18243a;--muted:#718096;--line:#e4e8ef}
 [data-theme=dark]{--bg:#0c1422;--card:#172235;--ink:#f2f5fa;--muted:#b3bfd0;--line:#334158}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
-button,input{font:inherit}
+button,input,textarea{font:inherit}
 button{cursor:pointer}
 button:disabled{opacity:.6;cursor:not-allowed}
 .layout{min-height:100vh;display:grid;grid-template-columns:245px 1fr}
@@ -22,7 +22,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .navbutton:hover,.navbutton.active{background:#ffffff14;color:var(--gold)}
 .side-bottom{margin-top:auto;border-top:1px solid #ffffff20;padding-top:18px}
 .main{min-width:0}
-.topbar{height:76px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:15px}
+.topbar{min-height:76px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:15px 30px;gap:15px}
 .crumb{font-size:12px;color:var(--muted)}
 .top-actions{display:flex;gap:10px;align-items:center}
 .theme,.avatar{width:39px;height:39px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center}
@@ -30,7 +30,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .content{max-width:1300px;margin:auto;padding:30px}
 .welcome{background:var(--navy);color:#fff;border-radius:10px;padding:30px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .welcome h1{font-size:clamp(25px,3vw,36px);margin:8px 0}
-.welcome p{color:#d1d9e6;font-size:14px;margin-bottom:0}
+.welcome p{color:#d1d9e6;font-size:14px;margin-bottom:0;overflow-wrap:anywhere}
 .eyebrow{color:var(--gold);font-size:10px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
 .status{background:#ffffff12;border:1px solid #ffffff25;border-radius:7px;padding:16px;min-width:130px}
 .status small{color:#c8d2e1;display:block;font-size:11px}
@@ -40,8 +40,9 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;min-width:0}
 .card .symbol{width:38px;height:38px;display:grid;place-items:center;background:#d8b46a25;color:#a47b2e;border-radius:7px;font-weight:bold;font-size:18px}
 .card h3{font-size:15px;margin:16px 0 7px}
-.card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0}
-.card button{margin-top:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:4px;padding:9px 12px;font-size:12px;font-weight:bold}
+.card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0;overflow-wrap:anywhere}
+.card button,.action{margin-top:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:4px;padding:9px 12px;font-size:12px;font-weight:bold}
+.primary{background:var(--navy)!important;color:white!important;border-color:var(--navy)!important}
 .notice{margin-top:20px;border:1px solid var(--line);background:var(--card);padding:20px;border-radius:8px}
 .notice h3{margin:0 0 8px;font-size:15px}
 .notice p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}
@@ -51,17 +52,21 @@ button:disabled{opacity:.6;cursor:not-allowed}
 #message.error{background:#fff0f0;color:#a12626}
 [data-theme=dark] #message.success{background:#173b2c;color:#a7f0c5}
 [data-theme=dark] #message.error{background:#462327;color:#ffc4c4}
-.profile-form{margin-top:20px}
-.field{margin:18px 0}
+.field{margin:16px 0}
 .field label{display:block;font-size:12px;font-weight:bold;margin-bottom:8px}
-.field input{width:100%;max-width:520px;padding:12px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink);outline:none}
-.field input:focus{border-color:var(--gold);box-shadow:0 0 0 2px #d8b46a30}
+.field input,.field textarea{display:block;width:100%;max-width:650px;padding:12px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink)}
+.field textarea{min-height:130px;resize:vertical;line-height:1.5}
+.field input:focus,.field textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
 .field input[readonly]{opacity:.8}
-.primary{background:var(--navy)!important;color:white!important;border:1px solid var(--navy)!important;padding:12px 17px!important;border-radius:5px!important;font-weight:bold!important}
-.profile-note{margin-top:15px!important}
 .role-pill{display:inline-block;background:#d8b46a25;color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:bold}
-@media(max-width:850px){.layout{grid-template-columns:75px 1fr}.sidebar{padding:18px 8px}.brand{font-size:0;padding:5px 7px 25px}.brand:before{content:"W";font-size:25px;color:var(--gold)}.brand small,.label,.navbutton .txt,.side-bottom .txt{display:none}.navbutton{text-align:center;font-size:18px;padding:13px 3px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{padding:20px}.topbar{padding:0 18px}}
-@media(max-width:560px){.grid{grid-template-columns:1fr}.welcome{align-items:flex-start;flex-direction:column}.status{width:100%}.content{padding:14px}.topbar{height:64px}.crumb{font-size:11px}.card{padding:18px}}
+.notice-item{padding:17px 0;border-bottom:1px solid var(--line)}
+.notice-item:last-child{border-bottom:0}
+.notice-item h3{margin:0 0 7px;font-size:15px}
+.notice-item p{font-size:13px;line-height:1.7;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
+.notice-item small{font-size:11px;color:var(--muted)}
+.empty{color:var(--muted);font-size:13px;line-height:1.7}
+@media(max-width:850px){.layout{grid-template-columns:75px 1fr}.sidebar{padding:18px 8px}.brand{font-size:0;padding:5px 7px 25px}.brand:before{content:"W";font-size:25px;color:var(--gold)}.brand small,.label,.navbutton .txt,.side-bottom .txt{display:none}.navbutton{text-align:center;font-size:18px;padding:13px 3px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{padding:20px}.topbar{padding:15px 18px}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.welcome{align-items:flex-start;flex-direction:column}.status{width:100%}.content{padding:14px}.topbar{min-height:64px}.crumb{font-size:10px}.card{padding:18px}}
 </style>
 </head>
 <body>
@@ -69,18 +74,13 @@ button:disabled{opacity:.6;cursor:not-allowed}
 <aside class="sidebar">
 <div class="brand">WOODLANDS ACADEMY<small>STUDENT &amp; STAFF PORTAL</small></div>
 <div class="label">Workspace</div>
-<button class="navbutton active" data-page="overview">⌂ <span class="txt">Overview</span></button>
-<button class="navbutton" data-page="timetable">▦ <span class="txt">Timetable</span></button>
-<button class="navbutton" data-page="assignments">▤ <span class="txt">Assignments</span></button>
-<button class="navbutton" data-page="attendance">✓ <span class="txt">Attendance</span></button>
-<button class="navbutton" data-page="notices">▣ <span class="txt">School notices</span></button>
+<div id="navigation"></div>
 <div class="label">Account</div>
 <button class="navbutton" data-page="profile">◎ <span class="txt">My profile</span></button>
 <div class="side-bottom">
 <button class="navbutton" id="signout">↪ <span class="txt">Sign out</span></button>
 </div>
 </aside>
-
 <main class="main">
 <header class="topbar">
 <div class="crumb">WOODLANDS ACADEMY / <strong id="crumb">OVERVIEW</strong></div>
@@ -89,56 +89,54 @@ button:disabled{opacity:.6;cursor:not-allowed}
 <div class="avatar" id="avatar">W</div>
 </div>
 </header>
-
 <div class="content">
 <section class="welcome">
 <div>
-<div class="eyebrow">Student &amp; Staff Portal</div>
-<h1 id="greeting">Welcome to Woodlands.</h1>
-<p id="emailText">Your school workspace starts here.</p>
+<div class="eyebrow" id="portalLabel">School Portal</div>
+<h1 id="greeting">Loading your dashboard...</h1>
+<p id="emailText">Checking your account.</p>
 </div>
-<div class="status"><small>ACCOUNT STATUS</small><strong>Authenticated</strong></div>
+<div class="status"><small>YOUR ROLE</small><strong id="roleLabel">Loading...</strong></div>
 </section>
-
 <div id="message" role="status" aria-live="polite"></div>
 <h2 class="section-title" id="sectionTitle">Your overview</h2>
-<div class="grid" id="cards">
-<article class="card"><div class="symbol">▦</div><h3>Timetable</h3><p>Your lessons and daily schedule will appear here when school timetable data is connected.</p><button data-open="timetable">Open timetable</button></article>
-<article class="card"><div class="symbol">▤</div><h3>Assignments</h3><p>View work, due dates and assignment information here once the assignment system is enabled.</p><button data-open="assignments">View assignments</button></article>
-<article class="card"><div class="symbol">✓</div><h3>Attendance</h3><p>Your attendance information will be shown here when authorised school data is connected.</p><button data-open="attendance">View attendance</button></article>
-</div>
+<div class="grid" id="cards"></div>
 <section class="notice" id="notice">
-<h3>Welcome to your new portal</h3>
-<p>Your account is signed in successfully. This dashboard is the starting point; timetable, assignments, attendance and notices still need their database tables and permissions configured.</p>
+<h3>Welcome to Woodlands Academy</h3>
+<p>Your dashboard is connected to your school account. Use the menu to access your available features.</p>
 </section>
 </div>
 </main>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (async () => {
   const $ = id => document.getElementById(id);
   const root = document.documentElement;
-
   root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
 
   function updateTheme() {
     $('theme').textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
   }
-
-  function showMessage(text, type) {
+  function message(text, type = 'success') {
     $('message').textContent = text;
     $('message').className = 'show ' + type;
   }
-
   function clearMessage() {
     $('message').textContent = '';
     $('message').className = '';
   }
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[char]));
+  }
+  function dateLabel(value) {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? '' : date.toLocaleString();
+  }
 
   updateTheme();
-
   $('theme').addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
     localStorage.setItem('woodlands-theme', root.dataset.theme);
@@ -155,14 +153,13 @@ button:disabled{opacity:.6;cursor:not-allowed}
     'sb_publishable_M1ZqtJXB_71srEIF4gaAhQ_A0EFEI0Y'
   );
 
-  const { data, error } = await supabase.auth.getSession();
-
-  if (error || !data.session) {
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError || !sessionData.session) {
     location.replace('/login');
     return;
   }
 
-  const user = data.session.user;
+  const user = sessionData.session.user;
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
@@ -170,187 +167,224 @@ button:disabled{opacity:.6;cursor:not-allowed}
     .eq('id', user.id)
     .maybeSingle();
 
-  if (profileError) {
-    console.error('Could not load profile:', profileError.message);
+  if (profileError || !profile) {
+    $('greeting').textContent = 'Your profile needs attention';
+    $('emailText').textContent = user.email || '';
+    $('roleLabel').textContent = 'Unverified';
+    $('cards').innerHTML = '<article class="card"><h3>Profile unavailable</h3><p>Your account is signed in, but the school profile could not be verified. Please contact the portal owner.</p></article>';
+    message('Could not verify your school role. Protected dashboard features have not been loaded.', 'error');
+    return;
   }
 
-  let displayName =
-    profile?.full_name?.trim() ||
+  const role = profile.role;
+  const ownerId = 'd3edc1cd-9df1-4f54-a2ce-3a48d91cb16b';
+
+  // Only the designated UID receives the owner interface.
+  const isOwner = user.id === ownerId && role === 'admin';
+  const isTeacher = role === 'teacher';
+  const isStudent = role === 'student';
+
+  if (!isOwner && !isTeacher && !isStudent) {
+    $('greeting').textContent = 'Account access unavailable';
+    $('roleLabel').textContent = 'Unverified';
+    $('cards').innerHTML = '<article class="card"><h3>Access needs checking</h3><p>Your role is not configured for a dashboard. Contact the portal owner.</p></article>';
+    return;
+  }
+
+  let displayName = profile.full_name?.trim() ||
     user.user_metadata?.full_name?.trim() ||
-    user.email?.split('@')[0] ||
-    'Student';
+    user.email?.split('@')[0] || 'Student';
 
-  const accountRole = profile?.role || 'student';
+  $('greeting').textContent = 'Welcome, ' + displayName + '.';
+  $('emailText').textContent = user.email || 'Your school workspace starts here.';
+  $('avatar').textContent = displayName.charAt(0).toUpperCase() || 'W';
+  $('roleLabel').textContent = isOwner ? 'Owner' : isTeacher ? 'Teacher' : 'Student';
+  $('portalLabel').textContent = isOwner ? 'Owner Control Panel' : isTeacher ? 'Teacher Workspace' : 'Student Portal';
 
-  function updateAccountDisplay() {
-    $('greeting').textContent = 'Welcome, ' + displayName + '.';
-    $('emailText').textContent = user.email || 'Your school workspace starts here.';
-    $('avatar').textContent = displayName.trim().charAt(0).toUpperCase() || 'W';
+  const nav = isOwner
+    ? [['overview','⌂','Overview'],['notices','▣','School notices'],['users','♙','User management'],['settings','⚙','Portal settings']]
+    : isTeacher
+      ? [['overview','⌂','Overview'],['notices','▣','School notices'],['assignments','▤','Assignments'],['attendance','✓','Attendance']]
+      : [['overview','⌂','Overview'],['notices','▣','School notices'],['timetable','▦','Timetable'],['assignments','▤','Assignments'],['attendance','✓','Attendance']];
+
+  $('navigation').innerHTML = nav.map(([page, icon, title]) =>
+    `<button class="navbutton" data-page="${page}">${icon} <span class="txt">${title}</span></button>`
+  ).join('');
+
+  function card(symbol, title, description, page, buttonText) {
+    return `<article class="card"><div class="symbol">${symbol}</div><h3>${title}</h3><p>${description}</p><button data-open="${page}">${buttonText}</button></article>`;
   }
-
-  updateAccountDisplay();
-
-  const pages = {
-    overview: [
-      'Overview',
-      '<article class="card"><div class="symbol">W</div><h3>Welcome to Woodlands</h3><p>Your portal account is connected. Use the navigation to explore the available sections.</p></article>'
-    ],
-    timetable: [
-      'Timetable',
-      '<article class="card"><div class="symbol">▦</div><h3>Timetable not connected yet</h3><p>Lesson times and rooms will appear here after timetable data is configured.</p></article>'
-    ],
-    assignments: [
-      'Assignments',
-      '<article class="card"><div class="symbol">▤</div><h3>Assignments not connected yet</h3><p>Assignment lists, due dates and submissions will be added in the next stage.</p></article>'
-    ],
-    attendance: [
-      'Attendance',
-      '<article class="card"><div class="symbol">✓</div><h3>Attendance not connected yet</h3><p>Personal attendance records will be added once the secure school data structure is ready.</p></article>'
-    ],
-    notices: [
-      'School notices',
-      '<article class="card"><div class="symbol">▣</div><h3>School notices</h3><p>School announcements will appear here after the announcements feature is connected.</p></article>'
-    ],
-    profile: [
-      'My profile',
-      `<article class="card">
-        <div class="symbol">◎</div>
-        <h3>My account details</h3>
-        <p>View your school account information and update your display name below.</p>
-        <form id="profileForm" class="profile-form">
-          <div class="field">
-            <label for="profileNameInput">Full name</label>
-            <input id="profileNameInput" name="full_name" type="text" maxlength="80" required autocomplete="name" placeholder="Enter your full name">
-          </div>
-          <div class="field">
-            <label for="profileEmailInput">Email address</label>
-            <input id="profileEmailInput" type="email" readonly>
-          </div>
-          <div class="field">
-            <label>Account role</label>
-            <p><span id="profileRole" class="role-pill">Student</span></p>
-          </div>
-          <button class="primary" id="saveProfile" type="submit">Save profile</button>
-        </form>
-        <p class="profile-note">Your email and account role cannot be changed from this form.</p>
-      </article>`
-    ]
-  };
 
   function openPage(name) {
-    if (!pages[name]) return;
+    clearMessage();
+    const pages = {
+      overview: {
+        title: 'Your overview',
+        cards: isOwner
+          ? card('♙','User management','View school accounts and manage roles after the secure management tools are configured.','users','Open user management') +
+            card('▣','School notices','Publish announcements and oversee school communications.','notices','Manage notices') +
+            card('⚙','Portal settings','Owner settings will be added as the portal grows.','settings','Open settings')
+          : isTeacher
+            ? card('▣','School notices','Publish announcements for students and staff.','notices','Open notices') +
+              card('▤','Assignments','Assignment management will be connected in a later step.','assignments','Open assignments') +
+              card('✓','Attendance','Attendance tools will be connected in a later step.','attendance','Open attendance')
+            : card('▦','Timetable','Your lesson timetable will appear here when connected.','timetable','Open timetable') +
+              card('▤','Assignments','Your assignments and due dates will appear here when connected.','assignments','Open assignments') +
+              card('✓','Attendance','Your attendance details will appear here when connected.','attendance','Open attendance'),
+        html: ''
+      },
+      timetable: {title:'Timetable',cards:'',html:'<article class="card"><h3>Timetable not connected yet</h3><p>Lesson times and rooms will appear here after timetable data is configured.</p></article>'},
+      assignments: {title:'Assignments',cards:'',html:'<article class="card"><h3>Assignments not connected yet</h3><p>Assignment lists, due dates and submissions will be added in a later stage.</p></article>'},
+      attendance: {title:'Attendance',cards:'',html:'<article class="card"><h3>Attendance not connected yet</h3><p>Attendance tools will be added after the secure school data structure is ready.</p></article>'},
+      users: {title:'User management',cards:'',html:'<article class="card"><h3>User management is not enabled yet</h3><p>This section will be connected only after we add and test secure owner-only database permissions. No roles can be changed from this page yet.</p></article>'},
+      settings: {title:'Portal settings',cards:'',html:'<article class="card"><h3>Portal settings</h3><p>Owner settings will be added in a later step.</p></article>'}
+    };
 
     document.querySelectorAll('.navbutton[data-page]').forEach(button => {
       button.classList.toggle('active', button.dataset.page === name);
     });
 
-    $('crumb').textContent = pages[name][0].toUpperCase();
-    $('sectionTitle').textContent = name === 'overview' ? 'Your overview' : pages[name][0];
-    $('cards').innerHTML = pages[name][1];
+    $('crumb').textContent = name.replace(/-/g,' ').toUpperCase();
+    $('sectionTitle').textContent = pages[name]?.title || name;
     $('notice').style.display = name === 'overview' ? 'block' : 'none';
-    clearMessage();
 
     if (name === 'profile') {
-      $('profileNameInput').value = displayName;
-      $('profileEmailInput').value = user.email || '';
-      $('profileRole').textContent =
-        accountRole.charAt(0).toUpperCase() + accountRole.slice(1);
-
-      $('profileForm').addEventListener('submit', saveProfile);
-    }
-
-    document.querySelector('.content').scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }
-
-  async function saveProfile(event) {
-    event.preventDefault();
-    clearMessage();
-
-    const button = $('saveProfile');
-    const nameInput = $('profileNameInput');
-    const newName = nameInput.value.trim();
-
-    if (!newName) {
-      showMessage('Please enter your full name.', 'error');
-      nameInput.focus();
+      $('sectionTitle').textContent = 'My profile';
+      $('cards').innerHTML = `<article class="card">
+        <div class="symbol">◎</div><h3>My account</h3>
+        <form id="profileForm">
+          <div class="field"><label for="fullName">Full name</label><input id="fullName" maxlength="80" required value="${escapeHtml(displayName)}"></div>
+          <div class="field"><label for="email">Email address</label><input id="email" readonly value="${escapeHtml(user.email || '')}"></div>
+          <div class="field"><label>Role</label><p><span class="role-pill">${isOwner?'Owner':isTeacher?'Teacher':'Student'}</span></p></div>
+          <button class="primary" type="submit" id="saveProfile">Save profile</button>
+        </form>
+      </article>`;
+      $('profileForm').addEventListener('submit', async event => {
+        event.preventDefault();
+        const button = $('saveProfile');
+        const newName = $('fullName').value.trim();
+        if (!newName) return message('Please enter your name.', 'error');
+        button.disabled = true;
+        button.textContent = 'Saving...';
+        const {data: saved, error} = await supabase
+          .from('profiles')
+          .update({full_name:newName})
+          .eq('id',user.id)
+          .select('full_name')
+          .maybeSingle();
+        button.disabled = false;
+        button.textContent = 'Save profile';
+        if (error || !saved) return message('Could not save your profile: ' + (error?.message || 'No profile was updated.'), 'error');
+        displayName = saved.full_name.trim();
+        $('greeting').textContent = 'Welcome, ' + displayName + '.';
+        $('avatar').textContent = displayName.charAt(0).toUpperCase() || 'W';
+        message('Your profile has been saved.', 'success');
+      });
       return;
     }
 
-    if (newName.length > 80) {
-      showMessage('Your name must be 80 characters or fewer.', 'error');
-      nameInput.focus();
+    if (name === 'notices') {
+      $('sectionTitle').textContent = 'School notices';
+      const canPublish = isOwner || isTeacher;
+      $('cards').innerHTML = `
+        ${canPublish ? `<article class="card" style="grid-column:1/-1">
+          <div class="symbol">＋</div><h3>Publish a school notice</h3>
+          <p>Published notices are visible to signed-in students and staff.</p>
+          <form id="noticeForm">
+            <div class="field"><label for="noticeTitle">Notice title</label><input id="noticeTitle" maxlength="150" required placeholder="Enter a short title"></div>
+            <div class="field"><label for="noticeBody">Notice details</label><textarea id="noticeBody" maxlength="10000" required placeholder="Write your announcement"></textarea></div>
+            <button class="primary" id="publishNotice" type="submit">Publish notice</button>
+          </form>
+        </article>` : ''}
+        <article class="card" style="grid-column:1/-1"><div class="symbol">▣</div><h3>Published notices</h3><div id="noticeList"><p class="empty">Loading notices...</p></div></article>`;
+
+      if (canPublish) {
+        $('noticeForm').addEventListener('submit', async event => {
+          event.preventDefault();
+          const button = $('publishNotice');
+          const title = $('noticeTitle').value.trim();
+          const body = $('noticeBody').value.trim();
+          if (!title || !body) return message('Enter both a title and notice details.', 'error');
+          button.disabled = true;
+          button.textContent = 'Publishing...';
+          const {error} = await supabase.from('school_notices').insert({
+            title, body, author_id:user.id, published:true
+          });
+          button.disabled = false;
+          button.textContent = 'Publish notice';
+          if (error) {
+            console.error(error);
+            message('Could not publish notice: ' + error.message, 'error');
+            return;
+          }
+          $('noticeForm').reset();
+          message('Your notice has been published.', 'success');
+          await loadNotices();
+        });
+      }
+      await loadNotices();
       return;
     }
 
-    button.disabled = true;
-    button.textContent = 'Saving...';
-
-    try {
-      const { data: updatedProfile, error: updateError } = await supabase
-        .from('profiles')
-        .update({ full_name: newName })
-        .eq('id', user.id)
-        .select('full_name')
-        .maybeSingle();
-
-      if (updateError) {
-        throw updateError;
-      }
-
-      if (!updatedProfile) {
-        throw new Error(
-          'No profile was updated. Check that your profile exists and that the Supabase update policy allows you to update it.'
-        );
-      }
-
-      displayName = updatedProfile.full_name.trim() || newName;
-      updateAccountDisplay();
-      nameInput.value = displayName;
-
-      showMessage('Your profile has been saved successfully.', 'success');
-    } catch (err) {
-      console.error('Profile save failed:', err);
-      showMessage(
-        'Could not save your profile. ' + (err.message || 'Please try again.'),
-        'error'
-      );
-    } finally {
-      button.disabled = false;
-      button.textContent = 'Save profile';
+    if (pages[name]) {
+      $('cards').innerHTML = pages[name].html || pages[name].cards;
+    } else {
+      $('cards').innerHTML = '<article class="card"><h3>Page unavailable</h3><p>This section is not available for your account.</p></article>';
     }
   }
 
-  document.querySelectorAll('.navbutton[data-page]').forEach(button => {
-    button.addEventListener('click', () => openPage(button.dataset.page));
-  });
+  async function loadNotices() {
+    const list = $('noticeList');
+    if (!list) return;
+    list.innerHTML = '<p class="empty">Loading notices...</p>';
+
+    const {data, error} = await supabase
+      .from('school_notices')
+      .select('id,title,body,created_at')
+      .eq('published',true)
+      .order('created_at',{ascending:false})
+      .limit(50);
+
+    if (error) {
+      console.error(error);
+      list.innerHTML = '<p class="empty">Could not load notices. Please try again later.</p>';
+      message('Could not load school notices: ' + error.message, 'error');
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      list.innerHTML = '<p class="empty">There are no published school notices yet.</p>';
+      return;
+    }
+
+    list.innerHTML = data.map(item => `
+      <div class="notice-item">
+        <h3>${escapeHtml(item.title)}</h3>
+        <small>${escapeHtml(dateLabel(item.created_at))}</small>
+        <p>${escapeHtml(item.body)}</p>
+      </div>
+    `).join('');
+  }
 
   document.addEventListener('click', event => {
-    const button = event.target.closest('[data-open]');
-    if (button) openPage(button.dataset.open);
+    const button = event.target.closest('[data-page],[data-open]');
+    if (!button) return;
+    const page = button.dataset.page || button.dataset.open;
+    if (page) openPage(page);
   });
 
   $('signout').addEventListener('click', async () => {
     $('signout').disabled = true;
-    const { error } = await supabase.auth.signOut();
-
+    const {error} = await supabase.auth.signOut();
     if (error) {
-      showMessage('Could not sign out: ' + error.message, 'error');
+      message('Could not sign out: ' + error.message, 'error');
       $('signout').disabled = false;
       return;
     }
-
     location.replace('/login');
   });
 
-  if (profileError) {
-    showMessage(
-      'Your account is signed in, but your profile could not be loaded. You can still use the dashboard while we check the database settings.',
-      'error'
-    );
-  }
+  openPage('overview');
 })();
 </script>
 </body>
