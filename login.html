@@ -2,353 +2,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101d35">
-  <title>Student & Staff Portal | Woodlands Academy</title>
-  <style>
-    :root {
-      --navy:#101d35; --navy2:#1b2d4a; --gold:#d8b46a;
-      --paper:#f5f3ed; --card:#fff; --ink:#18243a;
-      --muted:#687387; --line:#e1e4e9; --green:#146c43; --red:#b42318;
-    }
-    [data-theme="dark"] {
-      --paper:#0c1422; --card:#172235; --ink:#f2f5fa;
-      --muted:#b3bfd0; --line:#334158;
-    }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font-family:Arial,Helvetica,sans-serif; background:var(--paper); color:var(--ink); }
-    a { color:inherit; text-decoration:none; }
-    button,input { font:inherit; }
-    button { cursor:pointer; }
-    .layout { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
-    .side { background:var(--navy); color:#fff; padding:38px clamp(25px,6vw,80px); display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; }
-    .side:after { content:""; position:absolute; width:480px; height:480px; border:1px solid #ffffff15; border-radius:50%; right:-230px; bottom:-170px; box-shadow:0 0 0 55px #ffffff07,0 0 0 110px #ffffff05; }
-    .brand { display:flex; align-items:center; gap:12px; font-size:14px; font-weight:800; letter-spacing:.5px; position:relative; z-index:1; }
-    .crest { width:43px; height:48px; background:var(--gold); color:var(--navy); display:grid; place-items:center; clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%); font-size:22px; }
-    .brand small { display:block; font-size:9px; color:#c4cede; letter-spacing:2px; margin-top:4px; }
-    .side-content { position:relative; z-index:1; max-width:500px; padding:65px 0; }
-    .eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:3px; font-size:11px; font-weight:800; }
-    h1 { font-size:clamp(40px,5vw,66px); letter-spacing:-2px; line-height:1.06; margin:18px 0; }
-    h1 em { color:var(--gold); font-style:normal; }
-    .side-content p { color:#cbd4e2; line-height:1.8; max-width:430px; font-size:15px; }
-    .promise { border-top:1px solid #ffffff26; padding-top:22px; position:relative; z-index:1; }
-    .promise strong { display:block; color:var(--gold); font-size:12px; letter-spacing:1px; margin:8px 0; }
-    .side-footer { color:#aeb9ca; font-size:11px; position:relative; z-index:1; }
-    .right { padding:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .top-actions { width:100%; max-width:440px; display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
-    .back { color:var(--muted); font-size:13px; font-weight:700; }
-    .theme { border:1px solid var(--line); border-radius:50%; width:38px; height:38px; background:var(--card); color:var(--ink); }
-    .card { width:100%; max-width:440px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:clamp(22px,4vw,38px); box-shadow:0 18px 55px #101d350c; }
-    .card h2 { font-size:29px; letter-spacing:-.7px; margin:0 0 8px; }
-    .intro { color:var(--muted); font-size:14px; line-height:1.6; margin:0 0 25px; }
-    .tabs { display:grid; grid-template-columns:1fr 1fr; gap:5px; background:var(--paper); padding:5px; border-radius:7px; margin-bottom:24px; }
-    .tab { border:0; background:transparent; color:var(--muted); padding:11px 8px; border-radius:5px; font-weight:800; font-size:13px; }
-    .tab.active { background:var(--card); color:var(--ink); box-shadow:0 1px 5px #00000010; }
-    .field { margin-bottom:17px; }
-    label { display:block; font-size:12px; font-weight:800; margin-bottom:7px; }
-    input { width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:5px; background:var(--card); color:var(--ink); outline:none; }
-    input:focus { border-color:#b38b3c; box-shadow:0 0 0 3px #d8b46a25; }
-    .password-wrap { position:relative; }
-    .password-wrap input { padding-right:75px; }
-    .show-password { position:absolute; right:8px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:var(--muted); font-size:11px; font-weight:800; }
-    .forgot-row { display:flex; justify-content:flex-end; margin-top:-7px; margin-bottom:20px; }
-    .text-button { border:0; background:transparent; color:#9b762f; font-size:12px; font-weight:800; padding:5px 0; }
-    .submit { width:100%; border:0; background:var(--navy); color:#fff; border-radius:5px; padding:14px; font-size:13px; font-weight:800; }
-    .submit:disabled { opacity:.6; cursor:wait; }
-    .message { display:none; padding:12px; border-radius:5px; font-size:12px; line-height:1.6; margin:0 0 17px; overflow-wrap:anywhere; }
-    .message.show { display:block; }
-    .message.error { background:#fff0ef; color:var(--red); }
-    .message.success { background:#eaf7ef; color:var(--green); }
-    .small-print { color:var(--muted); font-size:11px; line-height:1.6; margin-top:19px; }
-    .account { display:none; }
-    .account h2 { margin-bottom:10px; }
-    .account p { color:var(--muted); font-size:14px; line-height:1.7; overflow-wrap:anywhere; }
-    .account .submit { margin-top:14px; }
-    .account .secondary { background:transparent; border:1px solid var(--line); color:var(--ink); }
-    .right-footer { color:var(--muted); font-size:11px; margin-top:22px; text-align:center; }
-    @media(max-width:820px) {
-      .layout { grid-template-columns:1fr; }
-      .side { padding:22px 24px; }
-      .side-content { padding:38px 0 22px; }
-      .side-content h1 { font-size:42px; }
-      .promise,.side-footer { display:none; }
-      .right { padding:28px 18px; }
-    }
-    @media(max-width:420px) {
-      .side-content h1 { font-size:36px; }
-      .card { padding:22px 18px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodlands Academy | Portal</title>
+<style>
+:root{--navy:#101d35;--gold:#d8b46a;--bg:#f5f3ed;--card:#fff;--ink:#18243a;--muted:#687387;--line:#e1e4e9}
+[data-theme=dark]{--bg:#0c1422;--card:#172235;--ink:#f2f5fa;--muted:#b3bfd0;--line:#334158}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+button,input{font:inherit}button,a{cursor:pointer}a{color:inherit;text-decoration:none}
+.layout{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.side{background:var(--navy);color:white;padding:35px clamp(24px,6vw,75px);display:flex;flex-direction:column;justify-content:space-between}
+.brand{font-size:14px;font-weight:800;letter-spacing:1px}
+.brand small{display:block;color:#c4cede;font-size:10px;margin-top:5px;letter-spacing:2px}
+.intro{padding:50px 0}
+.eyebrow{color:var(--gold);text-transform:uppercase;font-size:11px;letter-spacing:3px;font-weight:800}
+h1{font-size:clamp(40px,5vw,65px);line-height:1.08;letter-spacing:-2px;margin:20px 0}
+h1 em{font-style:normal;color:var(--gold)}
+.side p{color:#cbd4e2;line-height:1.8;max-width:420px}
+.values{border-top:1px solid #ffffff25;padding-top:18px;color:var(--gold);font-size:12px;line-height:2;font-weight:800}
+.footer{font-size:11px;color:#aeb9ca}
+.right{padding:25px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.top{width:100%;max-width:440px;display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.back{font-size:13px;color:var(--muted);font-weight:bold}
+.theme{border:1px solid var(--line);border-radius:50%;width:40px;height:40px;background:var(--card);color:var(--ink)}
+.card{width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:clamp(22px,4vw,38px);box-shadow:0 18px 55px #101d350c}
+h2{font-size:28px;margin:0 0 8px}
+.sub{font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 24px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:var(--bg);padding:5px;border-radius:7px;margin-bottom:22px}
+.tab{border:0;background:transparent;color:var(--muted);padding:12px 5px;border-radius:5px;font-weight:bold}
+.tab.active{background:var(--card);color:var(--ink);box-shadow:0 1px 5px #0001}
+.field{margin-bottom:16px}
+label{display:block;font-size:12px;font-weight:bold;margin-bottom:7px}
+input{width:100%;padding:13px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--ink)}
+input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.password{position:relative}
+.password input{padding-right:70px}
+.show{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);font-size:11px;font-weight:bold;padding:8px}
+.primary{width:100%;padding:14px;border:0;border-radius:5px;background:var(--navy);color:white;font-weight:bold}
+.primary:disabled{opacity:.6;cursor:wait}
+.textbtn{border:0;background:transparent;color:#9b762f;font-size:12px;font-weight:bold;padding:8px 0}
+.forgot{text-align:right;margin:-8px 0 14px}
+.msg{display:none;padding:12px;border-radius:5px;font-size:12px;line-height:1.6;margin-bottom:16px;overflow-wrap:anywhere}
+.msg.show{display:block}
+.msg.error{background:#fff0ef;color:#a31c17}
+.msg.success{background:#eaf7ef;color:#146c43}
+.note{font-size:11px;line-height:1.7;color:var(--muted);margin-top:18px}
+#account{display:none}
+#account p{color:var(--muted);line-height:1.7;overflow-wrap:anywhere}
+.bottom{max-width:440px;text-align:center;color:var(--muted);font-size:11px;margin-top:20px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.side{padding:23px 25px}.intro{padding:30px 0 20px}h1{font-size:42px}.values,.footer{display:none}.right{padding:25px 17px}}
+</style>
 </head>
 <body>
-  <div class="layout">
-    <aside class="side">
-      <a class="brand" href="/">
-        <span class="crest">W</span>
-        <span>WOODLANDS ACADEMY<small>SPILSBY · LINCOLNSHIRE</small></span>
-      </a>
-      <div class="side-content">
-        <div class="eyebrow">Student &amp; Staff Portal</div>
-        <h1>Your school.<br>Your future.<br><em>Your next step.</em></h1>
-        <p>A dedicated space for the Woodlands Academy community. Sign in to continue, or create an account to get started.</p>
-      </div>
-      <div class="promise">
-        <strong>BE READY.</strong>
-        <strong>BE RESPECTFUL.</strong>
-        <strong>BE RESPONSIBLE.</strong>
-      </div>
-      <div class="side-footer">© <span id="year"></span> Woodlands Academy</div>
-    </aside>
+<div class="layout">
+<aside class="side">
+<a class="brand" href="/">WOODLANDS ACADEMY<small>SPILSBY · LINCOLNSHIRE</small></a>
+<div class="intro">
+<div class="eyebrow">Student &amp; Staff Portal</div>
+<h1>Your school.<br>Your future.<br><em>Your next step.</em></h1>
+<p>A dedicated space for the Woodlands Academy community. Sign in or create your account to get started.</p>
+</div>
+<div class="values">BE READY.<br>BE RESPECTFUL.<br>BE RESPONSIBLE.</div>
+<div class="footer">© <span id="year"></span> Woodlands Academy</div>
+</aside>
 
-    <main class="right">
-      <div class="top-actions">
-        <a class="back" href="/">← Back to school website</a>
-        <button class="theme" id="themeButton" aria-label="Switch colour theme">☾</button>
-      </div>
+<main class="right">
+<div class="top">
+<a class="back" href="/">← Back to school website</a>
+<button class="theme" id="theme" type="button" aria-label="Change theme">☾</button>
+</div>
 
-      <section class="card" id="authCard">
-        <h2 id="formTitle">Welcome back</h2>
-        <p class="intro" id="formIntro">Sign in with your school portal account.</p>
+<section class="card" id="authCard">
+<h2 id="title">Welcome back</h2>
+<p class="sub" id="subtitle">Sign in with your portal account.</p>
+<div class="tabs">
+<button class="tab active" id="loginTab" type="button">Sign in</button>
+<button class="tab" id="signupTab" type="button">Create account</button>
+</div>
+<div class="msg" id="message" role="status" aria-live="polite"></div>
+<form id="authForm">
+<div class="field" id="nameWrap" hidden>
+<label for="name">Full name</label>
+<input id="name" autocomplete="name" maxlength="100" placeholder="Your full name">
+</div>
+<div class="field">
+<label for="email">Email address</label>
+<input id="email" type="email" autocomplete="email" required placeholder="you@example.com">
+</div>
+<div class="field">
+<label for="password">Password</label>
+<div class="password">
+<input id="password" type="password" minlength="8" autocomplete="current-password" required placeholder="At least 8 characters">
+<button class="show" id="showPassword" type="button">Show</button>
+</div>
+</div>
+<div class="field" id="confirmWrap" hidden>
+<label for="confirm">Confirm password</label>
+<input id="confirm" type="password" minlength="8" placeholder="Enter password again">
+</div>
+<div class="forgot" id="forgotWrap">
+<button class="textbtn" id="forgot" type="button">Forgot password?</button>
+</div>
+<button class="primary" id="submit" type="submit">Sign in securely</button>
+</form>
+<p class="note" id="note">Use your own account. Staff and administrator permissions are assigned separately.</p>
+</section>
 
-        <div class="tabs" id="tabs">
-          <button class="tab active" id="loginTab" type="button">Sign in</button>
-          <button class="tab" id="signupTab" type="button">Create account</button>
-        </div>
+<section class="card" id="account">
+<div class="eyebrow">Portal account</div>
+<h2>You're signed in</h2>
+<p id="accountInfo"></p>
+<p>Your authentication is working. Your role-specific dashboard will be added next.</p>
+<button class="primary" id="signout" type="button">Sign out</button>
+</section>
+<div class="bottom">Woodlands Academy · Be ready. Be respectful. Be responsible.</div>
+</main>
+</div>
 
-        <div class="message" id="message" role="status" aria-live="polite"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const root = document.documentElement;
+  $('year').textContent = new Date().getFullYear();
 
-        <form id="authForm">
-          <div class="field" id="nameField" hidden>
-            <label for="fullName">Full name</label>
-            <input id="fullName" type="text" autocomplete="name" maxlength="100" placeholder="Your full name">
-          </div>
-          <div class="field">
-            <label for="email">Email address</label>
-            <input id="email" type="email" autocomplete="email" required placeholder="you@example.com">
-          </div>
-          <div class="field">
-            <label for="password">Password</label>
-            <div class="password-wrap">
-              <input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
-              <button class="show-password" id="showPassword" type="button">Show</button>
-            </div>
-          </div>
-          <div class="field" id="confirmField" hidden>
-            <label for="confirmPassword">Confirm password</label>
-            <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Enter your password again">
-          </div>
-          <div class="forgot-row" id="forgotRow">
-            <button class="text-button" id="forgotButton" type="button">Forgot password?</button>
-          </div>
-          <button class="submit" id="submitButton" type="submit">Sign in securely</button>
-        </form>
+  root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
+  function updateTheme() {
+    $('theme').textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
+  }
+  updateTheme();
+  $('theme').addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('woodlands-theme', root.dataset.theme);
+    updateTheme();
+  });
 
-        <p class="small-print" id="smallPrint">Keep your password private. Only use an account that belongs to you. School staff access will be assigned separately.</p>
-      </section>
+  let mode = 'login';
+  let client = null;
 
-      <section class="card account" id="accountCard">
-        <div class="eyebrow">Authentication successful</div>
-        <h2 id="accountTitle">You're signed in</h2>
-        <p id="accountInfo"></p>
-        <p>Your account is authenticated. Student, staff and administrator dashboards will be connected in the next setup stage.</p>
-        <button class="submit" id="signOutButton" type="button">Sign out</button>
-        <a class="submit secondary" href="/" style="display:block;text-align:center;margin-top:10px">Return to school website</a>
-      </section>
+  function message(text, type = 'error') {
+    $('message').textContent = text;
+    $('message').className = 'msg show ' + type;
+  }
+  function clearMessage() {
+    $('message').textContent = '';
+    $('message').className = 'msg';
+  }
+  function setMode(next) {
+    mode = next;
+    const signup = mode === 'signup';
+    $('loginTab').classList.toggle('active', !signup);
+    $('signupTab').classList.toggle('active', signup);
+    $('nameWrap').hidden = !signup;
+    $('confirmWrap').hidden = !signup;
+    $('name').required = signup;
+    $('confirm').required = signup;
+    $('password').autocomplete = signup ? 'new-password' : 'current-password';
+    $('title').textContent = signup ? 'Create your account' : 'Welcome back';
+    $('subtitle').textContent = signup
+      ? 'Register with your email address to get started.'
+      : 'Sign in with your portal account.';
+    $('submit').textContent = signup ? 'Create account' : 'Sign in securely';
+    $('forgotWrap').hidden = signup;
+    $('note').textContent = signup
+      ? 'Creating an account does not grant staff or administrator permissions.'
+      : 'Use your own account. Staff and administrator permissions are assigned separately.';
+    clearMessage();
+  }
 
-      <div class="right-footer">Woodlands Academy · Be ready. Be respectful. Be responsible.</div>
-    </main>
-  </div>
+  $('loginTab').addEventListener('click', () => setMode('login'));
+  $('signupTab').addEventListener('click', () => setMode('signup'));
+  $('showPassword').addEventListener('click', () => {
+    const input = $('password');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    $('showPassword').textContent = input.type === 'password' ? 'Show' : 'Hide';
+  });
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = 'https://pxjbpxwknaogfgjpetdd.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_M1ZqtJXB_71srEIF4gaAhQ_A0EFEI0Y';
+  function showAccount(user) {
+    $('authCard').style.display = 'none';
+    $('account').style.display = 'block';
+    $('accountInfo').textContent = 'Signed in as ' + (user.email || 'your account') + '.';
+  }
 
-    const root = document.documentElement;
-    const themeButton = document.getElementById('themeButton');
-    root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
-    function updateThemeButton() {
-      themeButton.textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
-      themeButton.setAttribute('aria-label', root.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  function connect() {
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+      message('The Supabase library did not load. Check your internet connection, then refresh this page.');
+      return false;
     }
-    updateThemeButton();
-    themeButton.addEventListener('click', () => {
-      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('woodlands-theme', root.dataset.theme);
-      updateThemeButton();
-    });
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    const { createClient } = window.supabase;
-    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    const authCard = document.getElementById('authCard');
-    const accountCard = document.getElementById('accountCard');
-    const authForm = document.getElementById('authForm');
-    const loginTab = document.getElementById('loginTab');
-    const signupTab = document.getElementById('signupTab');
-    const formTitle = document.getElementById('formTitle');
-    const formIntro = document.getElementById('formIntro');
-    const nameField = document.getElementById('nameField');
-    const confirmField = document.getElementById('confirmField');
-    const fullName = document.getElementById('fullName');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
-    const submitButton = document.getElementById('submitButton');
-    const message = document.getElementById('message');
-    const forgotRow = document.getElementById('forgotRow');
-    const smallPrint = document.getElementById('smallPrint');
-    let mode = 'login';
-
-    function showMessage(text, type = 'error') {
-      message.textContent = text;
-      message.className = 'message show ' + type;
+    try {
+      client = window.supabase.createClient(
+        'https://pxjbpxwknaogfgjpetdd.supabase.co',
+        'sb_publishable_M1ZqtJXB_71srEIF4gaAhQ_A0EFEI0Y'
+      );
+      return true;
+    } catch (error) {
+      message('Could not initialise Supabase: ' + error.message);
+      return false;
     }
-    function clearMessage() {
-      message.textContent = '';
-      message.className = 'message';
-    }
-    function setMode(nextMode) {
-      mode = nextMode;
-      const signup = mode === 'signup';
-      loginTab.classList.toggle('active', !signup);
-      signupTab.classList.toggle('active', signup);
-      nameField.hidden = !signup;
-      confirmField.hidden = !signup;
-      fullName.required = signup;
-      confirmPassword.required = signup;
-      password.autocomplete = signup ? 'new-password' : 'current-password';
-      formTitle.textContent = signup ? 'Create your account' : 'Welcome back';
-      formIntro.textContent = signup ? 'Register with your email address to get started.' : 'Sign in with your school portal account.';
-      submitButton.textContent = signup ? 'Create account' : 'Sign in securely';
-      forgotRow.hidden = signup;
-      smallPrint.textContent = signup
-        ? 'Use your own email address. Creating an account does not grant staff or administrator permissions.'
-        : 'Keep your password private. School staff access will be assigned separately.';
-      clearMessage();
-    }
-    loginTab.addEventListener('click', () => setMode('login'));
-    signupTab.addEventListener('click', () => setMode('signup'));
-    document.getElementById('showPassword').addEventListener('click', () => {
-      password.type = password.type === 'password' ? 'text' : 'password';
-      document.getElementById('showPassword').textContent = password.type === 'password' ? 'Show' : 'Hide';
-    });
+  }
 
-    function showSignedIn(user) {
-      authCard.style.display = 'none';
-      accountCard.style.display = 'block';
-      document.getElementById('accountInfo').textContent = 'Signed in as ' + (user.email || 'your account') + '.';
-      document.getElementById('accountTitle').textContent = 'You're signed in';
+  $('authForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    clearMessage();
+
+    if (!client && !connect()) return;
+
+    const email = $('email').value.trim();
+    const password = $('password').value;
+    if (!email || !password) {
+      message('Please enter your email address and password.');
+      return;
     }
 
-    authForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      clearMessage();
-      const userEmail = email.value.trim();
-      const userPassword = password.value;
-      if (mode === 'signup') {
-        if (fullName.value.trim().length < 2) {
-          showMessage('Please enter your full name.');
-          return;
-        }
-        if (userPassword !== confirmPassword.value) {
-          showMessage('Your passwords do not match.');
-          return;
-        }
-        if (userPassword.length < 8) {
-          showMessage('Your password must be at least 8 characters.');
-          return;
-        }
-      }
-
-      submitButton.disabled = true;
-      submitButton.textContent = mode === 'signup' ? 'Creating account…' : 'Signing in…';
-      try {
-        if (mode === 'signup') {
-          const { data, error } = await supabase.auth.signUp({
-            email: userEmail,
-            password: userPassword,
-            options: {
-              data: { full_name: fullName.value.trim() },
-              emailRedirectTo: window.location.origin + '/login'
-            }
-          });
-          if (error) throw error;
-          if (data.session && data.user) {
-            showSignedIn(data.user);
-          } else {
-            showMessage('Account request received. Check your email for the confirmation link before signing in.', 'success');
-            setMode('login');
-            email.value = userEmail;
-          }
-        } else {
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email: userEmail,
-            password: userPassword
-          });
-          if (error) throw error;
-          showSignedIn(data.user);
-        }
-      } catch (error) {
-        showMessage(error.message || 'Something went wrong. Please try again.');
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = mode === 'signup' ? 'Create account' : 'Sign in securely';
-      }
-    });
-
-    document.getElementById('forgotButton').addEventListener('click', async () => {
-      clearMessage();
-      const userEmail = email.value.trim();
-      if (!userEmail) {
-        showMessage('Enter your email address first, then select Forgot password again.');
-        email.focus();
+    if (mode === 'signup') {
+      if ($('name').value.trim().length < 2) {
+        message('Please enter your full name.');
         return;
       }
-      const button = document.getElementById('forgotButton');
-      button.disabled = true;
-      try {
-        const { error } = await supabase.auth.resetPasswordForEmail(userEmail, {
-          redirectTo: window.location.origin + '/login'
+      if (password.length < 8) {
+        message('Your password must contain at least 8 characters.');
+        return;
+      }
+      if (password !== $('confirm').value) {
+        message('Your passwords do not match.');
+        return;
+      }
+    }
+
+    const button = $('submit');
+    button.disabled = true;
+    button.textContent = mode === 'signup' ? 'Creating account…' : 'Signing in…';
+
+    try {
+      if (mode === 'signup') {
+        const { data, error } = await client.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: $('name').value.trim() },
+            emailRedirectTo: location.origin + '/login'
+          }
         });
         if (error) throw error;
-        showMessage('If password recovery is enabled, a reset email will be sent to that address.', 'success');
-      } catch (error) {
-        showMessage(error.message || 'Unable to request a password reset.');
-      } finally {
-        button.disabled = false;
-      }
-    });
-
-    document.getElementById('signOutButton').addEventListener('click', async () => {
-      const button = document.getElementById('signOutButton');
-      button.disabled = true;
-      try {
-        const { error } = await supabase.auth.signOut();
+        if (data.session && data.user) {
+          showAccount(data.user);
+        } else {
+          setMode('login');
+          $('email').value = email;
+          message('Registration submitted. Check your email for a confirmation link before signing in.', 'success');
+        }
+      } else {
+        const { data, error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        accountCard.style.display = 'none';
-        authCard.style.display = 'block';
-        password.value = '';
-        confirmPassword.value = '';
-        setMode('login');
-        showMessage('You have signed out successfully.', 'success');
-      } catch (error) {
-        document.getElementById('accountInfo').textContent = error.message || 'Could not sign out. Please try again.';
-      } finally {
-        button.disabled = false;
+        showAccount(data.user);
       }
-    });
+    } catch (error) {
+      message(error.message || 'The request failed. Please try again.');
+    } finally {
+      button.disabled = false;
+      button.textContent = mode === 'signup' ? 'Create account' : 'Sign in securely';
+    }
+  });
 
-    (async () => {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) throw error;
-        if (data.session?.user) showSignedIn(data.session.user);
-      } catch (error) {
-        showMessage('Could not connect to the authentication service. Refresh the page and try again.');
+  $('forgot').addEventListener('click', async () => {
+    clearMessage();
+    if (!client && !connect()) return;
+    const email = $('email').value.trim();
+    if (!email) {
+      message('Enter your email address first.');
+      $('email').focus();
+      return;
+    }
+    const button = $('forgot');
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    try {
+      const { error } = await client.auth.resetPasswordForEmail(email, {
+        redirectTo: location.origin + '/login'
+      });
+      if (error) throw error;
+      message('If password recovery is enabled, a reset email will be sent to that address.', 'success');
+    } catch (error) {
+      message(error.message || 'Could not request a password reset.');
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Forgot password?';
+    }
+  });
+
+  $('signout').addEventListener('click', async () => {
+    if (!client && !connect()) return;
+    $('signout').disabled = true;
+    try {
+      const { error } = await client.auth.signOut();
+      if (error) throw error;
+      $('account').style.display = 'none';
+      $('authCard').style.display = 'block';
+      $('password').value = '';
+      $('confirm').value = '';
+      setMode('login');
+      message('You have signed out.', 'success');
+    } catch (error) {
+      $('accountInfo').textContent = error.message || 'Could not sign out.';
+    } finally {
+      $('signout').disabled = false;
+    }
+  });
+
+  if (connect()) {
+    client.auth.getSession().then(({ data, error }) => {
+      if (error) {
+        message(error.message);
+        return;
       }
-    })();
-  </script>
+      if (data.session && data.session.user) showAccount(data.session.user);
+    }).catch(error => message(error.message || 'Could not check your session.'));
+  }
+})();
+</script>
 </body>
 </html>
