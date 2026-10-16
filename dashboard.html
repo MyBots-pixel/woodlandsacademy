@@ -20,7 +20,7 @@ button{font:inherit;cursor:pointer}
 .navbutton:hover,.navbutton.active{background:#ffffff14;color:var(--gold)}
 .side-bottom{margin-top:auto;border-top:1px solid #ffffff20;padding-top:18px}
 .main{min-width:0}
-.topbar{height:76px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:15px}
+.topbar{min-height:76px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:15px}
 .crumb{font-size:12px;color:var(--muted)}
 .top-actions{display:flex;gap:10px;align-items:center}
 .theme,.avatar{width:39px;height:39px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center}
@@ -32,21 +32,23 @@ button{font:inherit;cursor:pointer}
 .eyebrow{color:var(--gold);font-size:10px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
 .status{background:#ffffff12;border:1px solid #ffffff25;border-radius:7px;padding:16px;min-width:130px}
 .status small{color:#c8d2e1;display:block;font-size:11px}
-.status strong{display:block;font-size:16px;margin-top:7px}
+.status strong{display:block;font-size:16px;margin-top:7px;text-transform:capitalize}
 .section-title{font-size:20px;margin:30px 0 15px}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;min-width:0}
 .card .symbol{width:38px;height:38px;display:grid;place-items:center;background:#d8b46a25;color:#a47b2e;border-radius:7px;font-weight:bold;font-size:18px}
 .card h3{font-size:15px;margin:16px 0 7px}
-.card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0}
+.card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 8px;overflow-wrap:anywhere}
 .card button{margin-top:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:4px;padding:9px 12px;font-size:12px;font-weight:bold}
 .notice{margin-top:20px;border:1px solid var(--line);background:var(--card);padding:20px;border-radius:8px}
 .notice h3{margin:0 0 8px;font-size:15px}
 .notice p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}
-#message{display:none;margin-top:16px;padding:13px;border-radius:6px;background:#eaf7ef;color:#146c43;font-size:13px}
+#message{display:none;margin-top:16px;padding:13px;border-radius:6px;background:#eaf7ef;color:#146c43;font-size:13px;overflow-wrap:anywhere}
 #message.show{display:block}
+#message.error{background:#fff0ef;color:#a31c17}
+.loading{padding:20px;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--muted)}
 @media(max-width:850px){.layout{grid-template-columns:75px 1fr}.sidebar{padding:18px 8px}.brand{font-size:0;padding:5px 7px 25px}.brand:before{content:"W";font-size:25px;color:var(--gold)}.brand small,.label,.navbutton .txt,.side-bottom .txt{display:none}.navbutton{text-align:center;font-size:18px;padding:13px 3px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{padding:20px}.topbar{padding:0 18px}}
-@media(max-width:560px){.grid{grid-template-columns:1fr}.welcome{align-items:flex-start;flex-direction:column}.status{width:100%}.content{padding:14px}.topbar{height:64px}.crumb{font-size:11px}.card{padding:18px}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.welcome{align-items:flex-start;flex-direction:column}.status{width:100%}.content{padding:14px}.topbar{min-height:64px}.crumb{font-size:10px}.card{padding:18px}}
 </style>
 </head>
 <body>
@@ -70,7 +72,7 @@ button{font:inherit;cursor:pointer}
 <header class="topbar">
 <div class="crumb">WOODLANDS ACADEMY / <strong id="crumb">OVERVIEW</strong></div>
 <div class="top-actions">
-<button class="theme" id="theme" aria-label="Change theme">☾</button>
+<button class="theme" id="theme" type="button" aria-label="Change theme">☾</button>
 <div class="avatar" id="avatar">W</div>
 </div>
 </header>
@@ -78,23 +80,21 @@ button{font:inherit;cursor:pointer}
 <div class="content">
 <section class="welcome">
 <div>
-<div class="eyebrow">Student &amp; Staff Portal</div>
-<h1 id="greeting">Welcome to Woodlands.</h1>
-<p id="emailText">Your school workspace starts here.</p>
+<div class="eyebrow">Woodlands Academy Portal</div>
+<h1 id="greeting">Loading your dashboard…</h1>
+<p id="emailText">Checking your account.</p>
 </div>
-<div class="status"><small>ACCOUNT STATUS</small><strong>Authenticated</strong></div>
+<div class="status"><small>YOUR ROLE</small><strong id="roleText">Loading…</strong></div>
 </section>
 
 <div id="message"></div>
 <h2 class="section-title" id="sectionTitle">Your overview</h2>
 <div class="grid" id="cards">
-<article class="card"><div class="symbol">▦</div><h3>Timetable</h3><p>Your lessons and daily schedule will appear here when school timetable data is connected.</p><button data-open="timetable">Open timetable</button></article>
-<article class="card"><div class="symbol">▤</div><h3>Assignments</h3><p>View work, due dates and assignment information here once the assignment system is enabled.</p><button data-open="assignments">View assignments</button></article>
-<article class="card"><div class="symbol">✓</div><h3>Attendance</h3><p>Your attendance information will be shown here when authorised school data is connected.</p><button data-open="attendance">View attendance</button></article>
+<div class="loading">Loading your workspace…</div>
 </div>
 <section class="notice" id="notice">
-<h3>Welcome to your new portal</h3>
-<p>Your account is signed in successfully. This dashboard is the starting point; timetable, assignments, attendance and notices still need their database tables and permissions configured.</p>
+<h3>Welcome to Woodlands Academy</h3>
+<p>Your school workspace is ready. Timetable, assignments, attendance and notices will be connected as those features are built.</p>
 </section>
 </div>
 </main>
@@ -105,83 +105,196 @@ button{font:inherit;cursor:pointer}
 (async () => {
   const $ = id => document.getElementById(id);
   const root = document.documentElement;
-  root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
+
+  function showMessage(text, error = false) {
+    $('message').textContent = text;
+    $('message').className = error ? 'show error' : 'show';
+  }
+
+  try {
+    root.dataset.theme = localStorage.getItem('woodlands-theme') || 'light';
+  } catch {
+    root.dataset.theme = 'light';
+  }
+
   function updateTheme() {
     $('theme').textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
   }
   updateTheme();
+
   $('theme').addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('woodlands-theme', root.dataset.theme);
+    try { localStorage.setItem('woodlands-theme', root.dataset.theme); } catch {}
     updateTheme();
   });
 
-  if (!window.supabase) {
+  if (!window.supabase || typeof window.supabase.createClient !== 'function') {
     location.replace('/login');
     return;
   }
 
-  const supabase = window.supabase.createClient(
+  const client = window.supabase.createClient(
     'https://pxjbpxwknaogfgjpetdd.supabase.co',
     'sb_publishable_M1ZqtJXB_71srEIF4gaAhQ_A0EFEI0Y'
   );
 
-  const { data, error } = await supabase.auth.getSession();
-  if (error || !data.session) {
-    location.replace('/login');
-    return;
-  }
+  let user;
 
-  const user = data.session.user;
-  const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student';
-  $('greeting').textContent = 'Welcome, ' + displayName + '.';
-  $('emailText').textContent = user.email || 'Your school workspace starts here.';
-  $('avatar').textContent = displayName.trim().charAt(0).toUpperCase() || 'W';
+  try {
+    const { data, error } = await client.auth.getSession();
 
-  const pages = {
-    overview: ['Overview', '<article class="card"><div class="symbol">W</div><h3>Welcome to Woodlands</h3><p>Your portal account is connected. Use the navigation to explore the available sections.</p></article>'],
-    timetable: ['Timetable', '<article class="card"><div class="symbol">▦</div><h3>Timetable not connected yet</h3><p>Lesson times and rooms will appear here after timetable data is configured.</p></article>'],
-    assignments: ['Assignments', '<article class="card"><div class="symbol">▤</div><h3>Assignments not connected yet</h3><p>Assignment lists, due dates and submissions will be added in the next stage.</p></article>'],
-    attendance: ['Attendance', '<article class="card"><div class="symbol">✓</div><h3>Attendance not connected yet</h3><p>Personal attendance records will be added once the secure school data structure is ready.</p></article>'],
-    notices: ['School notices', '<article class="card"><div class="symbol">▣</div><h3>School notices</h3><p>School announcements will appear here after the announcements feature is connected.</p></article>'],
-    profile: ['My profile', '<article class="card"><div class="symbol">◎</div><h3>My account</h3><p id="profileEmail"></p><p id="profileName"></p><p>Your account role has not yet been assigned in the school database.</p></article>']
-  };
-
-  function openPage(name) {
-    if (!pages[name]) return;
-    document.querySelectorAll('.navbutton[data-page]').forEach(button => {
-      button.classList.toggle('active', button.dataset.page === name);
-    });
-    $('crumb').textContent = pages[name][0].toUpperCase();
-    $('sectionTitle').textContent = name === 'overview' ? 'Your overview' : pages[name][0];
-    $('cards').innerHTML = pages[name][1];
-    $('notice').style.display = name === 'overview' ? 'block' : 'none';
-    if (name === 'profile') {
-      $('profileEmail').textContent = 'Email: ' + (user.email || 'Not available');
-      $('profileName').textContent = 'Name: ' + displayName;
-    }
-    document.querySelector('.content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  document.querySelectorAll('.navbutton[data-page]').forEach(button => {
-    button.addEventListener('click', () => openPage(button.dataset.page));
-  });
-  document.addEventListener('click', event => {
-    const button = event.target.closest('[data-open]');
-    if (button) openPage(button.dataset.open);
-  });
-
-  $('signout').addEventListener('click', async () => {
-    $('signout').disabled = true;
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      $('message').textContent = 'Could not sign out: ' + error.message;
-      $('message').classList.add('show');
-      $('signout').disabled = false;
+    if (error || !data.session) {
+      location.replace('/login');
       return;
     }
-    location.replace('/login');
-  });
+
+    user = data.session.user;
+
+    const { data: profile, error: profileError } = await client
+      .from('profiles')
+      .select('full_name, role')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (profileError) {
+      throw new Error('Could not load your profile: ' + profileError.message);
+    }
+
+    if (!profile) {
+      showMessage('Your account is signed in, but its profile has not been created yet. Contact the portal administrator.', true);
+      $('greeting').textContent = 'Welcome to Woodlands.';
+      $('emailText').textContent = user.email || '';
+      $('roleText').textContent = 'Unassigned';
+      $('cards').innerHTML = '<div class="loading">Your profile needs to be set up before the portal can display your role.</div>';
+      return;
+    }
+
+    const name = profile.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student';
+    const role = profile.role || 'student';
+
+    $('greeting').textContent = 'Welcome, ' + name + '.';
+    $('emailText').textContent = user.email || 'Your school workspace starts here.';
+    $('avatar').textContent = name.trim().charAt(0).toUpperCase() || 'W';
+    $('roleText').textContent = role;
+
+    const roleLabels = {
+      student: 'Student workspace',
+      teacher: 'Teacher workspace',
+      admin: 'Administrator workspace'
+    };
+
+    $('sectionTitle').textContent = roleLabels[role] || 'Your overview';
+
+    const cards = [
+      ['▦', 'Timetable', 'Lesson times and rooms will appear here when timetable data is connected.', 'timetable'],
+      ['▤', 'Assignments', 'View work, due dates and assignment information here.', 'assignments'],
+      ['✓', 'Attendance', 'Attendance information will appear here when authorised data is connected.', 'attendance'],
+      ['▣', 'School notices', 'School announcements will appear here when the notices feature is connected.', 'notices'],
+      ['◎', 'My profile', 'View your account details and assigned portal role.', 'profile']
+    ];
+
+    if (role === 'teacher' || role === 'admin') {
+      cards.push(['+', 'Teaching tools', 'Teaching and school management features will be added in later stages.', 'teaching']);
+    }
+
+    $('cards').innerHTML = cards.map(([symbol, title, description, page]) =>
+      '<article class="card">' +
+      '<div class="symbol">' + symbol + '</div>' +
+      '<h3>' + title + '</h3>' +
+      '<p>' + description + '</p>' +
+      '<button type="button" data-open="' + page + '">Open section</button>' +
+      '</article>'
+    ).join('');
+
+    const pages = {
+      overview: ['Overview', 'Your overview'],
+      timetable: ['Timetable', 'Timetable'],
+      assignments: ['Assignments', 'Assignments'],
+      attendance: ['Attendance', 'Attendance'],
+      notices: ['School notices', 'School notices'],
+      profile: ['My profile', 'My profile'],
+      teaching: ['Teaching tools', 'Teaching tools']
+    };
+
+    function openPage(page) {
+      if (!pages[page]) return;
+
+      $('crumb').textContent = pages[page][0].toUpperCase();
+      $('sectionTitle').textContent = pages[page][1];
+
+      document.querySelectorAll('.navbutton[data-page]').forEach(button => {
+        button.classList.toggle('active', button.dataset.page === page);
+      });
+
+      $('notice').style.display = page === 'overview' ? 'block' : 'none';
+
+      if (page === 'overview') {
+        $('cards').innerHTML = cards.map(([symbol, title, description, target]) =>
+          '<article class="card"><div class="symbol">' + symbol +
+          '</div><h3>' + title + '</h3><p>' + description +
+          '</p><button type="button" data-open="' + target +
+          '">Open section</button></article>'
+        ).join('');
+      } else if (page === 'profile') {
+        $('cards').innerHTML =
+          '<article class="card"><div class="symbol">◎</div><h3>My profile</h3>' +
+          '<p><strong>Name:</strong> ' + escapeHtml(name) + '</p>' +
+          '<p><strong>Email:</strong> ' + escapeHtml(user.email || 'Not available') + '</p>' +
+          '<p><strong>Role:</strong> ' + escapeHtml(role) + '</p></article>';
+      } else {
+        const descriptions = {
+          timetable: 'Timetable data has not been connected yet.',
+          assignments: 'The assignments system has not been connected yet.',
+          attendance: 'Attendance records have not been connected yet.',
+          notices: 'School notices have not been connected yet.',
+          teaching: 'Teaching and administration tools will be built next.'
+        };
+        $('cards').innerHTML =
+          '<article class="card"><div class="symbol">W</div><h3>' +
+          escapeHtml(pages[page][0]) + '</h3><p>' +
+          escapeHtml(descriptions[page] || 'This section is not available yet.') +
+          '</p></article>';
+      }
+
+      document.querySelector('.content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;',
+        '"': '&quot;', "'": '&#39;'
+      })[char]);
+    }
+
+    document.querySelectorAll('.navbutton[data-page]').forEach(button => {
+      button.addEventListener('click', () => openPage(button.dataset.page));
+    });
+
+    document.addEventListener('click', event => {
+      const button = event.target.closest('[data-open]');
+      if (button) openPage(button.dataset.open);
+    });
+
+    $('signout').addEventListener('click', async () => {
+      $('signout').disabled = true;
+
+      try {
+        const { error } = await client.auth.signOut();
+        if (error) throw error;
+        location.replace('/login');
+      } catch (error) {
+        showMessage('Could not sign out: ' + error.message, true);
+        $('signout').disabled = false;
+      }
+    });
+
+  } catch (error) {
+    $('greeting').textContent = 'Your dashboard could not load';
+    $('emailText').textContent = 'Please try refreshing the page.';
+    $('roleText').textContent = 'Unavailable';
+    $('cards').innerHTML = '<div class="loading">The portal could not retrieve your profile. Check the profile table and its access policies.</div>';
+    showMessage(error.message || 'An unexpected error occurred.', true);
+  }
 })();
 </script>
 </body>
