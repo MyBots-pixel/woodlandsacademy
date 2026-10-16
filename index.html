@@ -718,7 +718,7 @@
         <a href="#values">Our Values</a>
         <a href="#life">School Life</a>
         <a href="#contact">Contact</a>
-        <a href="/login" class="portal-link">Student &amp; Staff Portal →</a>
+        <a href="#login" class="portal-link">Student &amp; Staff Portal →</a>
       </nav>
 
       <div class="header-actions">
@@ -861,9 +861,104 @@
           <h2>Ready for what's next?</h2>
           <p>Explore the school website or access your school portal.</p>
         </div>
-        <a href="/login" class="button button-gold">Access the portal →</a>
+        <a href="#login" class="button button-gold">Access the portal →</a>
       </section>
     </main>
+
+    <section class="auth-screen" id="authScreen">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <div class="auth-brand-mark">W</div>
+          <h2>WOODLANDS ACADEMY</h2>
+          <p>Student and staff access</p>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="loginTab" type="button">
+            Sign in
+          </button>
+          <button class="auth-tab" id="signupTab" type="button">
+            Create account
+          </button>
+        </div>
+
+        <form class="auth-form" id="authForm">
+          <h3 id="authTitle">Welcome back.</h3>
+          <p class="auth-intro" id="authIntro">
+            Sign in with your school account to continue.
+          </p>
+
+          <label class="auth-field" id="nameField" hidden>
+            <span>Full name</span>
+            <input
+              id="fullName"
+              type="text"
+              name="name"
+              autocomplete="name"
+              placeholder="Enter your full name"
+              maxlength="100"
+            >
+          </label>
+
+          <label class="auth-field">
+            <span>Email address</span>
+            <input
+              id="authEmail"
+              type="email"
+              name="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            >
+          </label>
+
+          <label class="auth-field">
+            <span>Password</span>
+            <div class="password-wrap">
+              <input
+                id="authPassword"
+                type="password"
+                name="password"
+                autocomplete="current-password"
+                placeholder="Enter your password"
+                minlength="8"
+                required
+              >
+              <button class="password-toggle" id="passwordToggle" type="button">
+                Show
+              </button>
+            </div>
+          </label>
+
+          <label class="auth-field" id="confirmField" hidden>
+            <span>Confirm password</span>
+            <input
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              autocomplete="new-password"
+              placeholder="Enter your password again"
+              minlength="8"
+            >
+          </label>
+
+          <button class="button button-gold auth-submit" id="authSubmit" type="submit">
+            Sign in →
+          </button>
+
+          <div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
+        </form>
+
+        <button class="auth-back" id="backHome" type="button">
+          ← Back to the school homepage
+        </button>
+
+        <p class="auth-note">
+          BE READY. BE RESPECTFUL. BE RESPONSIBLE.<br>
+          Protect your password and never share it with anyone.
+        </p>
+      </div>
+    </section>
 
     <footer class="footer">
       <strong>WOODLANDS ACADEMY</strong>
